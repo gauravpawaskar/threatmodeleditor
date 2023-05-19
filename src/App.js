@@ -79,7 +79,7 @@ function App() {
         <tbody>
           {threats.map((threat) => (
             <Threat
-              key={threat.id}
+              key={threat.id+Math.random()}
               threat={threat}
               onThreatUpdate={updatedThreatHandler}
             />

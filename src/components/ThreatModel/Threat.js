@@ -10,7 +10,6 @@ const Threat = (props) => {
   // * 9 add new state to capture updated value
 
   const theatClickHandler = () => {
-    console.log("click");
     setEditingThreat(true);
   };
 
