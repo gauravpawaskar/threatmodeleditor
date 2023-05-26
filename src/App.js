@@ -4,6 +4,7 @@ import Header from "./components/Layout/Header";
 import NewThreat from "./components/ThreatModel/NewThreat";
 import Menu from "./components/Layout/Menu";
 import Threat from "./components/ThreatModel/Threat";
+import GitSave from "./components/Git/GitSave";
 
 const ACTIONS = {
   UPDATE_THREAT: "update_threat",
@@ -13,6 +14,8 @@ const ACTIONS = {
 
 function App() {
   const [showForm, setShowForm] = useState(false);
+  const [showGitSave, setShowGitSave] = useState(false);
+  const [gitUrl, setGitUrl] = useState("")
 
   const reducerHandler = (threats, action) => {
     switch (action.type) {
@@ -39,6 +42,14 @@ function App() {
 
   const [threats, dispatch] = useReducer(reducerHandler, []);
 
+  const showGitSaveForm = () => {
+    setShowGitSave(true);
+  };
+
+  const hideGitSaveForm = () => {
+    setShowGitSave(false);
+  };
+
   const addThreatHandler = (threat) => {
     dispatch({ type: ACTIONS.ADD_THREAT, payload: threat });
   };
@@ -61,7 +72,8 @@ function App() {
     setShowForm(false);
   };
 
-  const gitPullHandler = (gitThreatModel) => {
+  const gitPullHandler = (gitThreatModel, git_url) => {
+    setGitUrl(git_url)
     dispatch({ type: ACTIONS.GET_GIT_THREAT, payload: gitThreatModel });
   };
 
@@ -79,7 +91,7 @@ function App() {
         <tbody>
           {threats.map((threat) => (
             <Threat
-              key={threat.id+Math.random()}
+              key={threat.id + Math.random()}
               threat={threat}
               onThreatUpdate={updatedThreatHandler}
             />
@@ -94,6 +106,10 @@ function App() {
           Add Threat
         </button>
       )}
+      {showGitSave && <GitSave threats={threats} giturl={gitUrl} onClose={hideGitSaveForm} />}
+      <button className="addthreat" onClick={showGitSaveForm}>
+        Save TM
+      </button>
     </Fragment>
   );
 }

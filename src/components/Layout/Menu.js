@@ -13,11 +13,35 @@ const Menu = (props) => {
     setShowGit(false);
   };
 
-  const gitUrlHandler = (gitUrl) => {
+  const getThreatsFromGit = async (git_url) => {
+    console.log(git_url);
+    const location = "localhost:5000";
+    const settings = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        git_url: git_url,
+      }),
+    };
+    try {
+      const fetchResponse = await fetch(`http://${location}/gettm`, settings);
+      const data = await fetchResponse.json();
+      return data;
+    } catch (e) {
+      return e;
+    }
+  };
+
+  const gitUrlHandler = async (gitUrl) => {
     // Pull data from git url and send json to following function
     //make sure it is array for json objects
-    const dummyThreat = [{ id: "1", threat: "test", mitigate: "test" }];
-    props.onGitPull(dummyThreat);
+    const threatModel = await getThreatsFromGit(gitUrl).then((value) => {
+      return value;
+    });
+    props.onGitPull(threatModel, gitUrl);
   };
 
   return (
