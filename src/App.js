@@ -102,12 +102,12 @@ function App() {
         <NewThreat onAddThreat={addThreatHandler} onClose={hideAddThreat} />
       )}
       {!showForm && (
-        <button className="addthreat" onClick={showAddThreat}>
+        <button className="button" onClick={showAddThreat}>
           Add Threat
         </button>
       )}
       {showGitSave && <GitSave threats={threats} giturl={gitUrl} onClose={hideGitSaveForm} />}
-      <button className="addthreat" onClick={showGitSaveForm}>
+      <button className="button" onClick={showGitSaveForm}>
         Save TM
       </button>
     </Fragment>

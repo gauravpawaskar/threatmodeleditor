@@ -47,7 +47,7 @@ const Menu = (props) => {
   return (
     <div className={classes.menu}>
       {showGit && <Git pullGitUrl={gitUrlHandler} onClose={hideGitPullForm} />}
-      <button onClick={showGitPullForm}>Git link</button>
+      <button className={classes.button} onClick={showGitPullForm}>Git link</button>
     </div>
   );
 };
