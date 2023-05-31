@@ -15,7 +15,9 @@ const ACTIONS = {
 function App() {
   const [showForm, setShowForm] = useState(false);
   const [showGitSave, setShowGitSave] = useState(false);
-  const [gitUrl, setGitUrl] = useState("")
+  const [gitUrl, setGitUrl] = useState("");
+
+  const ThreatConfig = require("./Assets/Columns.json");
 
   const reducerHandler = (threats, action) => {
     switch (action.type) {
@@ -24,9 +26,10 @@ function App() {
           (obj) => obj.id === action.payload.id
         );
         const newThreats = [...threats];
-        newThreats[threatID].threat = action.payload.threat;
-        newThreats[threatID].mitigate = action.payload.mitigate;
-        // * 14 update new coluhm key as per above line
+        ThreatConfig["schema"].forEach((schemaItem) => {
+          newThreats[threatID][schemaItem["schemaName"]] =
+            action.payload[schemaItem["schemaName"]];
+        });
         return newThreats;
       }
       case ACTIONS.ADD_THREAT: {
@@ -54,12 +57,6 @@ function App() {
     dispatch({ type: ACTIONS.ADD_THREAT, payload: threat });
   };
 
-  // To add new coloumn follow * comments in numerical sequense
-  // 1-5 NewThreat.js
-  // 6 ThreatTable.js
-  // 7-13 Threat.js
-  // 14 App.js
-
   const updatedThreatHandler = (threat) => {
     dispatch({ type: ACTIONS.UPDATE_THREAT, payload: threat });
   };
@@ -73,7 +70,7 @@ function App() {
   };
 
   const gitPullHandler = (gitThreatModel, git_url) => {
-    setGitUrl(git_url)
+    setGitUrl(git_url);
     dispatch({ type: ACTIONS.GET_GIT_THREAT, payload: gitThreatModel });
   };
 
@@ -84,8 +81,9 @@ function App() {
       <table className="threattable">
         <thead>
           <tr>
-            <th>Threat</th>
-            <th>Mitigation</th>
+            {ThreatConfig["schema"].map((schemaItem) => (
+              <th key={schemaItem["tableName"]}>{schemaItem["tableName"]}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -106,7 +104,9 @@ function App() {
           Add Threat
         </button>
       )}
-      {showGitSave && <GitSave threats={threats} giturl={gitUrl} onClose={hideGitSaveForm} />}
+      {showGitSave && (
+        <GitSave threats={threats} giturl={gitUrl} onClose={hideGitSaveForm} />
+      )}
       <button className="button" onClick={showGitSaveForm}>
         Save TM
       </button>
