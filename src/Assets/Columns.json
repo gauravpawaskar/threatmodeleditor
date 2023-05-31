@@ -1,0 +1,14 @@
+{
+  "schema": [
+    {
+      "tableName": "Threat",
+      "schemaName": "threat",
+      "type": "text"
+    },
+    {
+      "tableName": "Mitigation",
+      "schemaName": "mitigate",
+      "type": "text"
+    }
+  ]
+}
