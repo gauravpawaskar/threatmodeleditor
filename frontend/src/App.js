@@ -78,7 +78,7 @@ function App() {
     <Fragment>
       <Header />
       <Menu onGitPull={gitPullHandler} />
-      <table className="threattable">
+      <table className="table">
         <thead>
           <tr>
             {ThreatConfig["schema"].map((schemaItem) => (
