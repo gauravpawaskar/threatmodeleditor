@@ -14,7 +14,9 @@ Go back to project root directory
 
 `docker image build -t threatmodel .`
 
-`docker run -p 5000:5000 threatmodel`
+Generate a personal access token on github to update threat model to GitHub repository
+
+`docker run -p 5000:5000 -e GIT_TOKEN=<your personal access token> threatmodel`
 
 Navigate to [http://localhost:5000/](http://localhost:5000/)
 
@@ -27,6 +29,7 @@ Navigate to [http://localhost:5000/](http://localhost:5000/)
 `npm start`
 
 ### Run Backend
+
 `cd backend`
 
 `python -m venv ./virtual`
