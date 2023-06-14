@@ -4,6 +4,7 @@ import string
 
 import threatmodel_utils
 from git import Repo
+from git.exc import GitCommandError
 
 
 def clone_repo(git_url):
@@ -11,7 +12,10 @@ def clone_repo(git_url):
         string.ascii_uppercase + string.digits) for _ in range(8))
     git_token_url = git_url[:8] + \
         os.environ.get('GIT_TOKEN') + '@' + git_url[8:]
-    Repo.clone_from(git_token_url, repo_dir)
+    try:
+        Repo.clone_from(git_token_url, repo_dir)
+    except GitCommandError:
+        repo_dir = None
     return repo_dir
 
 
