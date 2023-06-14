@@ -33,8 +33,11 @@ def gettm():
     else:
         git_details = request.get_json()
         repo_dir = github.clone_repo(git_details['git_url'])
-        threat_model = threatmodel_utils.read_threat_model_from_git(repo_dir)
-        response = jsonify(threat_model)
+        if repo_dir == None:
+            response = jsonify({"error": "error in cloning"})
+        else:
+            threat_model = threatmodel_utils.read_threat_model_from_git(repo_dir)
+            response = jsonify(threat_model)
         if os.environ.get('ENV') == 'dev':
             add_dev_headers(response)
         return response
@@ -53,4 +56,7 @@ def pushtm():
         return response
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    isDev = False
+    if os.environ.get('ENV') == 'dev':
+        isDev = True
+    app.run(debug=isDev, host='0.0.0.0')

@@ -5,6 +5,7 @@ import NewThreat from "./components/ThreatModel/NewThreat";
 import Menu from "./components/Layout/Menu";
 import Threat from "./components/ThreatModel/Threat";
 import GitSave from "./components/Git/GitSave";
+import Error from "./components/UI/Error";
 
 const ACTIONS = {
   UPDATE_THREAT: "update_threat",
@@ -16,6 +17,8 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [showGitSave, setShowGitSave] = useState(false);
   const [gitUrl, setGitUrl] = useState("");
+  const [error, setError] = useState("");
+  const [showError, setShowError] = useState(false);
 
   const ThreatConfig = require("./Assets/Columns.json");
 
@@ -70,8 +73,19 @@ function App() {
   };
 
   const gitPullHandler = (gitThreatModel, git_url) => {
-    setGitUrl(git_url);
-    dispatch({ type: ACTIONS.GET_GIT_THREAT, payload: gitThreatModel });
+    console.log(JSON.stringify(gitThreatModel));
+    if (gitThreatModel["error"]) {
+      setError(gitThreatModel["error"]);
+      setShowError(true);
+    } else {
+      setGitUrl(git_url);
+      dispatch({ type: ACTIONS.GET_GIT_THREAT, payload: gitThreatModel });
+    }
+  };
+
+  const hideErrorHandler = () => {
+    setShowError(false);
+    setError("");
   };
 
   return (
@@ -107,6 +121,7 @@ function App() {
       {showGitSave && (
         <GitSave threats={threats} giturl={gitUrl} onClose={hideGitSaveForm} />
       )}
+      {showError && <Error message={error} onClose={hideErrorHandler} />}
       <button className="button" onClick={showGitSaveForm}>
         Save TM
       </button>

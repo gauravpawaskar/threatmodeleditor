@@ -9,9 +9,12 @@ def get_threatmodel_file(repo_dir):
 
 
 def read_threat_model_from_git(repo_dir):
-    f = open(get_threatmodel_file(repo_dir))
-    data = json.load(f)
-    f.close()
+    try:
+        f = open(get_threatmodel_file(repo_dir))
+        data = json.load(f)
+        f.close()
+    except FileNotFoundError:
+        data = {"threatmodel": []}
     clean_dir(repo_dir)
     return data["threatmodel"]
 
