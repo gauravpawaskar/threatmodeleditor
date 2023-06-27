@@ -33,6 +33,9 @@ const GitSave = (props) => {
       return value;
     });
     console.log(pushResponse);
+    if (pushResponse["error"]) {
+      props.onSaveError(pushResponse["error"]);
+    }
     props.onClose();
   };
   return (

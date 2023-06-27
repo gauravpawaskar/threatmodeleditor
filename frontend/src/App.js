@@ -88,6 +88,11 @@ function App() {
     setError("");
   };
 
+  const saveErrorHandler = (error) => {
+    setError(error);
+    setShowError(true);
+  };
+
   return (
     <Fragment>
       <Header />
@@ -119,7 +124,12 @@ function App() {
         </button>
       )}
       {showGitSave && (
-        <GitSave threats={threats} giturl={gitUrl} onClose={hideGitSaveForm} />
+        <GitSave
+          threats={threats}
+          onSaveError={saveErrorHandler}
+          giturl={gitUrl}
+          onClose={hideGitSaveForm}
+        />
       )}
       {showError && <Error message={error} onClose={hideErrorHandler} />}
       <button className="button" onClick={showGitSaveForm}>
