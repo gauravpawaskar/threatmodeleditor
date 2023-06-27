@@ -49,8 +49,14 @@ def pushtm():
     else:
         git_details = request.get_json()
         repo_dir = github.clone_repo(git_details['git_url'])
-        github.push_to_git(repo_dir, git_details['threats'])
-        response = jsonify({"msg":"ok"})
+        if repo_dir == None:
+            response = jsonify({"error": "error in cloning"})
+        else:
+            push_res = github.push_to_git(repo_dir, git_details['threats'])
+            if push_res == None:
+                response = jsonify({"error": "error in pushing branch"})
+            else:
+                response = jsonify({"msg":"ok"})
         if os.environ.get('ENV') == 'dev':
             add_dev_headers(response)
         return response

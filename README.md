@@ -38,6 +38,8 @@ Navigate to [http://localhost:5000/](http://localhost:5000/)
 
 `export ENV=dev`
 
+`export GIT_TOKEN=<your personal access token>`
+
 `python main.py`
 
 Navigate to Navigate to [http://localhost:3000/](http://localhost:3000/)
